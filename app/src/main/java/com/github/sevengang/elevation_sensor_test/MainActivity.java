@@ -14,11 +14,11 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
     private TextView textView = null;
+    private String accuracy = "Unknown";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_main);
         LinearLayout lView = new LinearLayout(this);
         textView = new TextView(this);
 
@@ -30,21 +30,35 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             sm.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL);
         }
         else {
-            textView.setText("device does not support desired sensor functionality!");
+            textView.setText("This device does not support the desired sensor functionality!");
         }
 
+        // display textView
         lView.addView(textView);
         setContentView(lView);
     }
 
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        // TODO: figure out what this is for
+        switch (accuracy) {
+            case 0:
+                this.accuracy = "Unreliable";
+                break;
+            case 1:
+                this.accuracy = "Low";
+                break;
+            case 2:
+                this.accuracy = "Medium";
+                break;
+            case 3:
+                this.accuracy = "High";
+                break;
+        }
     }
 
     public void onSensorChanged(SensorEvent event) {
         float pressure = event.values[0];
         float altitude = SensorManager.getAltitude(SensorManager.PRESSURE_STANDARD_ATMOSPHERE, pressure);
-        textView.setText("Current altitude: " + altitude);
+        textView.setText("Current altitude: " + altitude + ", accuracy: " + accuracy);
     }
 
 }
