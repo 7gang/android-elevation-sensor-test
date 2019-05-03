@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         LinearLayout lView = new LinearLayout(this);
         textView = new TextView(this);
 
-        // start listening is the desired sensor is supported
+        // start listening if the desired sensor is supported
         SensorManager sm = (SensorManager) getSystemService(SENSOR_SERVICE);
         List<Sensor> sensors = sm.getSensorList(Sensor.TYPE_PRESSURE);
         if (sensors.size() > 0) {
